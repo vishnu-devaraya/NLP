@@ -1,0 +1,26 @@
+import re
+
+def main():
+    email_input = input("Enter an email address: ")
+
+    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
+    emails = re.findall(email_pattern, email_input)
+
+    print("\nEmail addresses found:")
+    for email in emails:
+        print(email)
+
+    phone_input = input("\nEnter a phone number: ")
+
+    phone_pattern = r'\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b'
+
+    phone_numbers = re.findall(phone_pattern, phone_input)
+
+
+    print("\nPhone numbers found:")
+    for phone_number in phone_numbers:
+        print(phone_number)
+
+if _name_ == "_main_":
+    main()
