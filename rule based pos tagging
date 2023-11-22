@@ -1,0 +1,25 @@
+import re
+
+def pos_tagging(text):
+    patterns = [
+        (r'\b(?:The|the)\b', 'DET'),  # Matches 'The' or 'the' as determiners
+        (r'\b(?:cat|dog)\b', 'NOUN'),  # Matches 'cat' or 'dog' as nouns
+        (r'\b(?:is|am|are)\b', 'VERB'),  # Matches 'is,' 'am,' or 'are' as verbs
+        (r'\b(?:quickly|loudly)\b', 'ADV'),  # Matches 'quickly' or 'brightly' as adverbs
+        (r'\b(?:[A-Za-z]+)\b', 'NOUN')  # Matches any other words as nouns
+    ]
+
+    tagged_text = []
+
+    for word in text.split():
+        for pattern, pos_tag in patterns:
+            if re.search(pattern, word):
+                tagged_text.append((word, pos_tag))
+                break
+        else:
+            tagged_text.append((word, 'NOUN'))  # Default to NOUN if no rule matches
+
+    return tagged_text
+
+input_text = "The cat is quickly running. The dog is barking loudly."
+result = pos_tagging(input_text)
