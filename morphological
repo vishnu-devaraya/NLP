@@ -1,0 +1,10 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
+nltk.download('punkt')
+sentence = "Unhappily, she ran Quickly."
+words = word_tokenize(sentence)
+porter_stemmer = PorterStemmer()
+stemmed_words = [porter_stemmer.stem(word) for word in words]
+print("Original words:", words)
+print("Stemmed words:", stemmed_words)
