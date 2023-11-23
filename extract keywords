@@ -1,0 +1,42 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+def extract_keywords(sentences):
+    # Create a TfidfVectorizer
+    vectorizer = TfidfVectorizer()
+
+    # Fit and transform the sentences
+    tfidf_matrix = vectorizer.fit_transform(sentences)
+
+    # Get the feature names (words) from the vectorizer
+    feature_names = vectorizer.get_feature_names_out()
+
+    # Get the TF-IDF scores for each word in each sentence
+    tfidf_values = tfidf_matrix.toarray()
+
+    # Create a dictionary to store keywords and their corresponding TF-IDF scores
+    keywords = {}
+
+    # Iterate through each sentence and extract keywords with their TF-IDF scores
+    for i, sentence in enumerate(sentences):
+        keyword_scores = {feature_names[j]: tfidf_values[i][j] for j in range(len(feature_names))}
+        keywords[sentence] = keyword_scores
+
+    return keywords
+
+# Example sentences
+sentences = [
+    "Artificial Intelligence (AI) is a field of computer science.",
+    "Machine Learning is a subset of AI that focuses on training models to make predictions.",
+    "Deep learning is a type of machine learning that uses neural networks with multiple layers.",
+    "Neural networks are composed of interconnected nodes called neurons.",
+    "Recurrent neural networks (RNNs) are commonly used in natural language processing tasks."
+]
+
+# Extract keywords from the given sentences
+result = extract_keywords(sentences)
+
+# Print the extracted keywords and their TF-IDF scores
+for sentence, keywords in result.items():
+    print(f"\nSentence: {sentence}")
+    for keyword, score in keywords.items():
+        print(f"{keyword}: {score:.4f}")
