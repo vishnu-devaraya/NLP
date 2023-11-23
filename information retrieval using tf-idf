@@ -1,0 +1,26 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+sentences = [
+    "Climate change is a pressing global issue that requires immediate action.",
+    "Renewable energy sources, such as solar and wind power, are essential for reducing carbon emissions.",
+    "Greenhouse gases, like carbon dioxide and methane, contribute to global warming.",
+    "The Paris Agreement is an international treaty aimed at addressing climate change.",
+    "Sustainability and environmental conservation are crucial for the future of our planet."
+]
+
+query = "Climate change action"
+
+sentences.append(query)
+
+vectorizer = TfidfVectorizer()
+tfidf_matrix = vectorizer.fit_transform(sentences)
+
+query_tfidf = tfidf_matrix[-1]  # Last row corresponds to the query
+
+similarity_scores = (tfidf_matrix[:-1] @ query_tfidf.T).toarray().flatten()
+
+sorted_indices = similarity_scores.argsort()[::-1]
+
+print("Retrieved documents (in order of relevance):")
+for idx in sorted_indices:
+    print(f"Document {idx + 1}: {sentences[idx]}")
