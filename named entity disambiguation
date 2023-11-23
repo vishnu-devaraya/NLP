@@ -1,0 +1,30 @@
+import wikipediaapi
+import requests
+
+sentences = [
+    "Apple is a leading tech company.",
+    "I love apples as a fruit.",
+    "Python is a popular programming language.",
+    "The python is a non-venomous snake."
+]
+
+headers = {
+    'User-Agent': 'My_User_Agent/1.0 (Your_Name_or_Application_Name)'
+}
+
+wiki_wiki = wikipediaapi.Wikipedia('en', headers=headers)
+
+def disambiguate_entities(sentences):
+    for sentence in sentences:
+        words = sentence.split()
+        for word in words:
+        
+            page = wiki_wiki.page(word)
+            if page.exists():
+                print(f"Entity Mention: {word}")
+                print(f"Corresponding Wikipedia Entity: {page.fullurl}")
+                print(f"Summary: {page.summary}")
+                print("")
+
+disambiguate_entities(sentences)
+     
