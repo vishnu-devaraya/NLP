@@ -1,0 +1,47 @@
+import nltk
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.tag import pos_tag
+from nltk.chunk import ne_chunk
+
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('maxent_ne_chunker')
+nltk.download('words')
+
+sentences = [
+    "The quick brown fox jumps over the lazy dog.",
+    "She is an excellent chef and loves to cook delicious meals.",
+    "The Eiffel Tower in Paris is a famous landmark."
+]
+
+def extract_noun_phrases_meanings(sentences):
+    for sentence in sentences:
+      
+        words = word_tokenize(sentence)
+
+        pos_tags = pos_tag(words)
+        chunks = ne_chunk(pos_tags)
+
+        noun_phrases = []
+        meanings = []
+        for chunk in chunks:
+            if hasattr(chunk, 'label') and chunk.label() == 'NP':
+                noun_phrase = ' '.join([token for token, pos in chunk.leaves()])
+                noun_phrases.append(noun_phrase)
+
+                if 'Eiffel Tower' in noun_phrase:
+                    meanings.append("A famous landmark in Paris, France.")
+                elif 'chef' in noun_phrase:
+                    meanings.append("Someone skilled in cooking.")
+                else:
+                    meanings.append("Meaning not defined.")
+
+        print(f"Sentence: {sentence}")
+        print("Extracted Noun Phrases:")
+        for i, noun_phrase in enumerate(noun_phrases):
+            print(f"{i + 1}. {noun_phrase}")
+            print(f"   Meaning: {meanings[i]}")
+        print("")
+
+extract_noun_phrases_meanings(sentences)
+     
